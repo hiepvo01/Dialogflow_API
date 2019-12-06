@@ -1,6 +1,20 @@
 
 <template>
   <div id="app" >
+    <!-- <span>Project ID:{{form.project_id}}</span>
+    <br/>
+    <span>Session ID:{{form.session_id}}</span>
+    <br/>
+    <span>Audio File Path: {{form.audio_file_path}}</span>
+    <br/>
+    <span>Language Code: {{form.language_code}}</span>
+    <br/>
+    <h1>Dialogflow Submit</h1> 
+    
+    
+    <span>User Response: {{response.user_response}}</span>
+    <br/>
+    <span> Dialogflow Response: {{response.dialogflow_response}}</span>-->
     <div id='chat'>
     </div>
 
@@ -47,11 +61,12 @@ export default class QuestionBox extends Vue {
     dialogflow_response: '',
   };
 
-  public ws = new WebSocket('ws://127.0.0.1:8000/ws');
+  public ws = new WebSocket('ws://localhost:8000/ws');
 
   public created() {
     this.ws.onmessage = ((event) => {
       const data = JSON.parse(event.data);
+      console.log(data, data.interface);
 
       this.response.user_response = data.user_response;
       this.response.dialogflow_response = data.phonemes;
@@ -71,7 +86,7 @@ export default class QuestionBox extends Vue {
 
       const pr = document.createElement('div');
 
-      user_par.innerHTML += data.user_response
+      user_par.innerHTML += data.user_response;
 
       this.conversation.push(data.dialogflow_response);
       let dialog_par = document.createElement('p');
@@ -87,6 +102,7 @@ export default class QuestionBox extends Vue {
   }
 
   public onSubmit(e) {
+    console.log(this.audio64);
     e.preventDefault();
     const list = [JSON.stringify(this.form.project_id), JSON.stringify(this.form.session_id), JSON.stringify(this.audio64), JSON.stringify(this.form.language_code)];
     this.ws.send(list.toString());
