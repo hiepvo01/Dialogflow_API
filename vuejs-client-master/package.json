@@ -40,7 +40,7 @@
         "babel-core": "6.26.3",
         "babel-loader": "^8.0.2",
         "jest": "^23.1.0",
-        "node-sass": "^4.9.0",
+        "node-sass": "^4.13.1",
         "sass-loader": "^7.0.1",
         "ts-jest": "^23.10.1",
         "ts-node": "^7.0.1",
